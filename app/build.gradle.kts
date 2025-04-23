@@ -61,6 +61,17 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    implementation ("androidx.compose.material:material:1.7.8")
+    implementation ("androidx.compose.foundation:foundation:1.7.8")
+    implementation ("androidx.compose.material:material-icons-extended:1.7.8")
+
+    implementation ("com.google.android.material:material:1.12.0")
+    implementation ("com.google.firebase:firebase-firestore-ktx")
+
+    implementation("androidx.compose.runtime:runtime-livedata:1.7.8")
+    implementation("androidx.compose.runtime:runtime:1.7.8")
+
+
     // Import the BoM for the Firebase platform
     implementation(platform("com.google.firebase:firebase-bom:33.12.0"))
     implementation("com.google.firebase:firebase-auth")

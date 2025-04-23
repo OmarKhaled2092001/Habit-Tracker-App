@@ -13,9 +13,16 @@ import com.example.habittrackerapp.ui.screens.gender.GenderScreen
 import com.example.habittrackerapp.ui.screens.home.HomeScreen
 import com.example.habittrackerapp.ui.screens.onboarding.OnboardingScreen
 import com.example.habittrackerapp.ui.screens.splash.SplashScreen
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.habittrackerapp.viewmodel.SharedViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+
 
 @Composable
-fun NavGraph(navController: NavHostController) {
+fun NavGraph(navController: NavHostController,viewModel: SharedViewModel) {
+    // ✅ SharedViewModel initialized once and shared between screens
+    val sharedViewModel: SharedViewModel = viewModel()
+
     NavHost(navController = navController, startDestination = Screen.Splash.route) {
         composable(route = Screen.Splash.route) {
             SplashScreen(navController)
@@ -32,17 +39,19 @@ fun NavGraph(navController: NavHostController) {
         composable(route = Screen.Register.route) {
             RegisterScreen(navController)
         }
-        composable(route = Screen.CheckYourEmail.route){
+        composable(route = Screen.CheckYourEmail.route) {
             CheckYourEmailScreen(navController)
         }
-        composable(route= Screen.Gender.route) {
+        composable(route = Screen.Gender.route) {
             GenderScreen(navController)
         }
-        composable(route= Screen.Habits.route) {
-            HabitsScreen(navController)
+        // ✅ Pass sharedViewModel to HabitsScreen
+        composable(route = Screen.Habits.route) {
+            HabitsScreen(navController, sharedViewModel)
         }
+        // ✅ Pass sharedViewModel to HomeScreen
         composable(route = Screen.Home.route) {
-            HomeScreen(navController)
+            HomeScreen(navController, sharedViewModel)
         }
     }
 }
