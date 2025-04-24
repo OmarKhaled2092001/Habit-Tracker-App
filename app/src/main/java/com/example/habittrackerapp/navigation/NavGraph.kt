@@ -13,9 +13,10 @@ import com.example.habittrackerapp.ui.screens.gender.GenderScreen
 import com.example.habittrackerapp.ui.screens.home.HomeScreen
 import com.example.habittrackerapp.ui.screens.onboarding.OnboardingScreen
 import com.example.habittrackerapp.ui.screens.splash.SplashScreen
+import com.facebook.CallbackManager
 
 @Composable
-fun NavGraph(navController: NavHostController) {
+fun NavGraph(navController: NavHostController, callbackManager: CallbackManager) {
     NavHost(navController = navController, startDestination = Screen.Splash.route) {
         composable(route = Screen.Splash.route) {
             SplashScreen(navController)
@@ -24,7 +25,7 @@ fun NavGraph(navController: NavHostController) {
             OnboardingScreen(navController)
         }
         composable(route = Screen.Login.route) {
-            LoginScreen(navController)
+            LoginScreen(navController, callbackManager = callbackManager)
         }
         composable(route = Screen.ForgotPassword.route) {
             ForgotPasswordScreen(navController)

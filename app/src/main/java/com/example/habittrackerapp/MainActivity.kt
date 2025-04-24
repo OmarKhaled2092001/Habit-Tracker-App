@@ -1,5 +1,6 @@
 package com.example.habittrackerapp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,10 +12,21 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.example.habittrackerapp.navigation.NavGraph
 import com.example.habittrackerapp.ui.theme.HabitTrackerAppTheme
+import com.facebook.CallbackManager
+import com.facebook.FacebookSdk
+import com.facebook.appevents.AppEventsLogger
 
 class MainActivity : ComponentActivity() {
+
+    private lateinit var callbackManager: CallbackManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        AppEventsLogger.activateApp(application)
+
+        callbackManager = CallbackManager.Factory.create()
+
         enableEdgeToEdge()
         setContent {
             HabitTrackerAppTheme {
@@ -24,9 +36,14 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    NavGraph(navController = navController)
+                    NavGraph(navController = navController, callbackManager = callbackManager)
                 }
             }
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        callbackManager.onActivityResult(requestCode, resultCode, data)
     }
 }

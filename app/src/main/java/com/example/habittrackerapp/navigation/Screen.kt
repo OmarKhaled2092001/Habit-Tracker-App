@@ -10,5 +10,6 @@ sealed class Screen(val route: String) {
     object Gender : Screen("gender")
     object Habits : Screen("habits")
     object Home : Screen("home")
+    object Settings : Screen("settings")
     // Add more as needed
 }

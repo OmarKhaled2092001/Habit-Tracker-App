@@ -1,5 +1,6 @@
 package com.example.habittrackerapp.ui.screens.auth.login
 
+import android.app.Activity
 import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResult
@@ -31,6 +32,11 @@ import com.example.habittrackerapp.R
 import com.example.habittrackerapp.navigation.Screen
 import com.example.habittrackerapp.ui.screens.auth.components.*
 import com.example.habittrackerapp.ui.theme.Blue
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -41,7 +47,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 @Composable
-fun LoginScreen(navController: NavController, viewModel: LoginViewModel = viewModel()) {
+fun LoginScreen(
+    navController: NavController,
+    viewModel: LoginViewModel = viewModel(),
+    callbackManager: CallbackManager = remember { CallbackManager.Factory.create() }
+) {
     val state = viewModel.loginState
     val loginError = remember { mutableStateOf<String?>(null) }
 
@@ -122,9 +132,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel = viewMo
                             loginError.value = null
                             navController.navigate(Screen.Home.route)
                         },
-                        onError = { error ->
-                            loginError.value = error
-                        }
+                        onError = { error -> loginError.value = error }
                     )
                 },
                 enabled = !state.isLoading
@@ -159,7 +167,36 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel = viewMo
             AuthButtonWithIcon(
                 text = "Continue with Facebook",
                 iconResourceId = R.drawable.facebook_logo,
-                onClick = {}
+                onClick = {
+                    val loginManager = LoginManager.getInstance()
+                    loginManager.logInWithReadPermissions(
+                        context as Activity,
+                        listOf("email", "public_profile")
+                    )
+                    loginManager.registerCallback(callbackManager,
+                        object : FacebookCallback<LoginResult> {
+                            override fun onSuccess(result: LoginResult) {
+                                viewModel.handleFacebookAccessToken(
+                                    result.accessToken,
+                                    onSuccess = {
+                                        loginError.value = null
+                                        navController.navigate(Screen.Home.route)
+                                    },
+                                    onError = {
+                                        loginError.value = it
+                                    }
+                                )
+                            }
+
+                            override fun onCancel() {
+                                loginError.value = "Facebook login cancelled"
+                            }
+
+                            override fun onError(error: FacebookException) {
+                                loginError.value = "Facebook login failed: ${error.message}"
+                            }
+                        })
+                }
             )
 
             Spacer(modifier = Modifier.height(32.dp))
@@ -184,6 +221,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel = viewMo
         }
     }
 }
+
 
 @Composable
 fun rememberFirebaseAuthLauncher(

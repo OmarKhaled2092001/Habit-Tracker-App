@@ -3,9 +3,9 @@ package com.example.habittrackerapp.ui.screens.auth.login
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import com.example.habittrackerapp.utils.isValidEmail
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import com.google.firebase.auth.*
+import com.facebook.AccessToken
+import com.google.firebase.auth.FacebookAuthProvider
 
 class LoginViewModel : ViewModel() {
 
@@ -58,4 +58,22 @@ class LoginViewModel : ViewModel() {
             }
     }
 
+    fun handleFacebookAccessToken(
+        token: AccessToken,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) {
+        loginState = loginState.copy(isLoading = true)
+
+        val credential = FacebookAuthProvider.getCredential(token.token)
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener { task ->
+                loginState = loginState.copy(isLoading = false)
+                if (task.isSuccessful) {
+                    onSuccess()
+                } else {
+                    onError(task.exception?.message ?: "Facebook login failed")
+                }
+            }
+    }
 }
