@@ -13,12 +13,14 @@ import androidx.navigation.compose.rememberNavController
 import com.example.habittrackerapp.navigation.NavGraph
 import com.example.habittrackerapp.ui.theme.HabitTrackerAppTheme
 import com.facebook.CallbackManager
-import com.facebook.FacebookSdk
 import com.facebook.appevents.AppEventsLogger
+import androidx.activity.viewModels
+import com.example.habittrackerapp.viewmodel.SharedViewModel
 
 class MainActivity : ComponentActivity() {
 
     private lateinit var callbackManager: CallbackManager
+    private val sharedViewModel: SharedViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +38,10 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    NavGraph(navController = navController, callbackManager = callbackManager)
+                    NavGraph(
+                        navController = navController,
+                        callbackManager = callbackManager,
+                        viewModel = sharedViewModel)
                 }
             }
         }

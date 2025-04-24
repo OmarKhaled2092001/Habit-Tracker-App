@@ -1,3 +1,5 @@
+package com.example.habittrackerapp.ui.screens.habits
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,8 +16,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -35,22 +35,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.example.habittrackerapp.ui.ReusableCard
 import com.example.habittrackerapp.ui.components.primary_button.PrimaryButton
+import com.example.habittrackerapp.data.HabitItem
+import com.example.habittrackerapp.viewmodel.SharedViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 
 @Composable
-fun HabitsScreen(navController: NavHostController) {
+fun HabitsScreen(navController: NavHostController, viewModel: SharedViewModel) {
     val habits = listOf(
-        "💧" to "Drink water",
-        "🏃‍♂️" to "Run",
-        "📖" to "Read books",
-        "🧘‍♀️" to "Meditate",
-        "👨‍💻" to "Study",
-        "📕" to "Journal",
-        "🌿" to "Nature",
-        "😴" to "Sleep"
+        HabitItem("💧", "Drink water"),
+        HabitItem("🏃‍♂️", "Run"),
+        HabitItem("📖", "Read books"),
+        HabitItem("🧘‍♀️", "Meditate"),
+        HabitItem("👨‍💻", "Study"),
+        HabitItem("📕", "Journal"),
+        HabitItem("🌿", "Nature"),
+        HabitItem("😴", "Sleep")
     )
 
-    val selectedHabits = remember { mutableStateListOf<String>() }
+    val selectedHabits = viewModel.selectedHabits // Already a StateList in ViewModel
 
     Column(
         modifier = Modifier
@@ -58,7 +61,7 @@ fun HabitsScreen(navController: NavHostController) {
             .padding(top = 32.dp)
             .background(Color(0xFFF8F9FB))
     ) {
-        // Top app bar
+        // Top bar
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -96,9 +99,7 @@ fun HabitsScreen(navController: NavHostController) {
         }
 
 
-        Spacer(modifier = Modifier
-            .height(24.dp)
-            .padding(horizontal = 20.dp))
+        Spacer(modifier = Modifier.height(24.dp))
         Text(
             "Choose your first habits",
             fontSize = 20.sp,
@@ -116,21 +117,23 @@ fun HabitsScreen(navController: NavHostController) {
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
-            modifier = Modifier.weight(1f).padding(horizontal = 20.dp),
+            modifier = Modifier
+                .weight(1f)
+                .padding(horizontal = 20.dp),
             contentPadding = PaddingValues(bottom = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(habits) { (emoji, label) ->
+            items(habits) { habit ->
                 ReusableCard(
-                    emoji = emoji,
-                    label = label,
-                    selected = selectedHabits.contains(label),
+                    emoji = habit.emoji,
+                    label = habit.name,
+                    selected = selectedHabits.contains(habit),
                     onClick = {
-                        if (selectedHabits.contains(label)) {
-                            selectedHabits.remove(label)
+                        if (selectedHabits.contains(habit)) {
+                            viewModel.removeHabitFromSelection(habit)
                         } else {
-                            selectedHabits.add(label)
+                            viewModel.addHabitToSelection(habit)
                         }
                     }
                 )
@@ -139,7 +142,21 @@ fun HabitsScreen(navController: NavHostController) {
 
         PrimaryButton(
             text = "Next",
-            onClick = { navController.navigate(Screen.Home.route) },
+            onClick = {
+                val userId = FirebaseAuth.getInstance().currentUser?.uid
+                if (userId != null) {
+                    selectedHabits.forEach { habit ->
+                        viewModel.addHabitToFirestore(
+                            userId = userId,
+                            name = habit.name,
+                            emoji = habit.emoji,
+                            onSuccess = {},
+                            onFailure = {}
+                        )
+                    }
+                }
+                navController.navigate(Screen.Home.route)
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 24.dp, horizontal = 20.dp)
@@ -147,9 +164,10 @@ fun HabitsScreen(navController: NavHostController) {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewGenderScreen() {
-    val navController = rememberNavController()
-    HabitsScreen(navController)
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewHabitsScreen() {
+//    val navController = rememberNavController()
+//    HabitsScreen(navController = navController,
+//        viewModel = SharedViewModel())
+//}

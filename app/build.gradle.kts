@@ -69,10 +69,19 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:20.7.0")
 
     implementation("com.facebook.android:facebook-android-sdk:18.0.3")
-//    implementation("com.facebook.android:facebook-login:17.0.0")
 
     implementation("com.airbnb.android:lottie-compose:6.6.6")
 
     implementation ("androidx.compose.material:material-icons-extended")
+
+    implementation ("androidx.compose.material:material:1.7.8")
+    implementation ("androidx.compose.foundation:foundation:1.7.8")
+    implementation ("androidx.compose.material:material-icons-extended:1.7.8")
+
+    implementation ("com.google.android.material:material:1.12.0")
+    implementation ("com.google.firebase:firebase-firestore-ktx")
+
+    implementation("androidx.compose.runtime:runtime-livedata:1.7.8")
+    implementation("androidx.compose.runtime:runtime:1.7.8")
 
 }
