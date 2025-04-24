@@ -1,0 +1,132 @@
+package com.example.habittrackerapp.ui.screens.gender
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Text
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.airbnb.lottie.compose.*
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.scaleIn
+import com.example.habittrackerapp.ui.GenderCard
+import com.example.habittrackerapp.ui.PrimaryButton
+
+@Composable
+fun GenderOmar(navController: NavController) {
+    var selectedGender by remember { mutableStateOf("") }
+
+    val animationFileName = when (selectedGender) {
+        "Male" -> "man.json"
+        "Female" -> "female.json"
+        else -> null
+    }
+
+    Column(
+        verticalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFFEDEDF3))
+            .padding(bottom = 32.dp, start = 10.dp, end = 10.dp)
+    ) {
+        Column {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(300.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                if (animationFileName != null) {
+                    AnimatedLottie(animationFileName = animationFileName)
+                } else {
+                    Text(
+                        text = "",
+                        fontSize = 16.sp,
+                        color = Color.Gray,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+
+            Text(
+                text = "Select your Gender",
+                fontSize = 32.sp,
+                color = Color.Black,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(top = 20.dp)
+            )
+
+            Spacer(modifier = Modifier.height(96.dp))
+
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
+            ) {
+                GenderCard(
+                    animationFileName = if (selectedGender == "Male") "white_male_icon.json" else "green_male_icon.json",
+                    label = "Male",
+                    selected = selectedGender == "Male",
+                    selectedBackgroundColor = Color(0xFF009D90),
+                    onClick = { selectedGender = "Male" }
+                )
+                GenderCard(
+                    animationFileName = if (selectedGender == "Female") "white_female_icon.json" else "pink_female_icon.json",
+                    label = "Female",
+                    selected = selectedGender == "Female",
+                    selectedBackgroundColor = Color(0xFFFF6699),
+                    onClick = { selectedGender = "Female" }
+                )
+            }
+        }
+
+        PrimaryButton(
+            text = "Next",
+            onClick = {},
+            modifier = Modifier.padding(bottom = 32.dp)
+        )
+    }
+}
+
+@Composable
+fun AnimatedLottie(animationFileName: String) {
+    val composition by rememberLottieComposition(LottieCompositionSpec.Asset(animationFileName))
+    val progress by animateLottieCompositionAsState(
+        composition = composition,
+        iterations = LottieConstants.IterateForever
+    )
+
+    AnimatedVisibility(
+        visible = true,
+        enter = fadeIn(animationSpec = tween(durationMillis = 1200)) +
+                scaleIn(
+                    initialScale = 0.3f,
+                    animationSpec = tween(durationMillis = 1200)
+                ),
+    ) {
+        LottieAnimation(
+            composition = composition,
+            progress = { progress },
+            modifier = Modifier
+                .fillMaxSize(0.8f)
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GenderOmarPreview() {
+    GenderOmar(navController = rememberNavController())
+}

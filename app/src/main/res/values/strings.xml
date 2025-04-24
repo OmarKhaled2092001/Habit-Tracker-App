@@ -2,6 +2,10 @@
     <string name="app_name">Habit Tracker App</string>
     <string name="web_client_id">897211163550-je3rs1o7qbl7674s3dfe57ir2kjkbb17.apps.googleusercontent.com</string>
 
+    <string name="facebook_app_id">1169453211527473</string>
+    <string name="fb_login_protocol_scheme">fb1169453211527473</string>
+    <string name="facebook_client_token">d3ce0323fa0e17b48eef3ae1a53e5822</string>
+
     <!-- Onboarding Titles -->
     <string name="onboarding_title_1">Create \nGood Habits</string>
     <string name="onboarding_title_2">Track \nYour Progress</string>

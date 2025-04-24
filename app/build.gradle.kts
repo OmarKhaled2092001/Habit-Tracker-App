@@ -68,6 +68,11 @@ dependencies {
 
     implementation("com.google.android.gms:play-services-auth:20.7.0")
 
+    implementation("com.facebook.android:facebook-android-sdk:18.0.3")
+//    implementation("com.facebook.android:facebook-login:17.0.0")
+
     implementation("com.airbnb.android:lottie-compose:6.6.6")
+
+    implementation ("androidx.compose.material:material-icons-extended")
 
 }
