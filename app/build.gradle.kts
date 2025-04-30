@@ -83,5 +83,4 @@ dependencies {
 
     implementation("androidx.compose.runtime:runtime-livedata:1.7.8")
     implementation("androidx.compose.runtime:runtime:1.7.8")
-
 }

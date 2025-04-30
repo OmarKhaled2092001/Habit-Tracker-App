@@ -1,47 +1,36 @@
 package com.example.habittrackerapp.ui.screens.habits
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
-import com.example.habittrackerapp.navigation.Screen
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.compose.rememberNavController
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import com.example.habittrackerapp.data.HabitItem
+import com.example.habittrackerapp.navigation.Screen
 import com.example.habittrackerapp.ui.ReusableCard
 import com.example.habittrackerapp.ui.components.primary_button.PrimaryButton
-import com.example.habittrackerapp.data.HabitItem
-import com.example.habittrackerapp.viewmodel.SharedViewModel
-import com.google.firebase.auth.FirebaseAuth
-
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun HabitsScreen(navController: NavHostController, viewModel: SharedViewModel) {
+fun HabitsScreen(
+    navController: NavHostController,
+    viewModel: HabitsViewModel = viewModel()
+) {
     val habits = listOf(
         HabitItem("💧", "Drink water"),
         HabitItem("🏃‍♂️", "Run"),
@@ -50,10 +39,15 @@ fun HabitsScreen(navController: NavHostController, viewModel: SharedViewModel) {
         HabitItem("👨‍💻", "Study"),
         HabitItem("📕", "Journal"),
         HabitItem("🌿", "Nature"),
-        HabitItem("😴", "Sleep")
+        HabitItem("😴", "Sleep"),
+        HabitItem("🎨", "Paint"),
+        HabitItem("🚶", "Daily Steps"),
+        HabitItem("🎮", "Games"),
+        HabitItem("📽️", "Movies"),
+        HabitItem("🏋️", "Workout"),
     )
 
-    val selectedHabits = viewModel.selectedHabits // Already a StateList in ViewModel
+    val selectedHabits by viewModel.selectedHabits.collectAsState()
 
     Column(
         modifier = Modifier
@@ -97,7 +91,6 @@ fun HabitsScreen(navController: NavHostController, viewModel: SharedViewModel) {
                 )
             }
         }
-
 
         Spacer(modifier = Modifier.height(24.dp))
         Text(
@@ -143,19 +136,14 @@ fun HabitsScreen(navController: NavHostController, viewModel: SharedViewModel) {
         PrimaryButton(
             text = "Next",
             onClick = {
-                val userId = FirebaseAuth.getInstance().currentUser?.uid
-                if (userId != null) {
-                    selectedHabits.forEach { habit ->
-                        viewModel.addHabitToFirestore(
-                            userId = userId,
-                            name = habit.name,
-                            emoji = habit.emoji,
-                            onSuccess = {},
-                            onFailure = {}
-                        )
+                viewModel.saveSelectedHabits(
+                    onSuccess = {
+                        navController.navigate(Screen.HomeScreen.route)
+                    },
+                    onFailure = { exception ->
+                        // Handle error if you want
                     }
-                }
-                navController.navigate(Screen.Home.route)
+                )
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -164,10 +152,9 @@ fun HabitsScreen(navController: NavHostController, viewModel: SharedViewModel) {
     }
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewHabitsScreen() {
-//    val navController = rememberNavController()
-//    HabitsScreen(navController = navController,
-//        viewModel = SharedViewModel())
-//}
+
+@Preview(showBackground = true)
+@Composable
+private fun HabitsScreenPreview() {
+    HabitsScreen(navController = rememberNavController())
+}

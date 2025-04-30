@@ -1,5 +1,6 @@
 package com.example.habittrackerapp.ui.screens.gender
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
@@ -10,7 +11,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -110,7 +110,14 @@ fun GenderScreen(
             PrimaryButton(
                 text = "Next",
                 onClick = {
-                    navController.navigate(Screen.Habits.route)
+                    viewModel.saveGender(
+                        onSuccess = {
+                            navController.navigate(Screen.Habits.route)
+                        },
+                        onFailure = { e ->
+                            Log.e("GenderScreen", "Error saving gender", e)
+                        }
+                    )
                 },
                 modifier = Modifier.padding(bottom = 32.dp)
             )

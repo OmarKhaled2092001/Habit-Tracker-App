@@ -6,11 +6,9 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -24,9 +22,8 @@ import com.example.habittrackerapp.navigation.Screen
 import com.example.habittrackerapp.ui.components.background.GradientBackground
 import com.example.habittrackerapp.ui.screens.onboarding.components.OnboardingIndicator
 import com.example.habittrackerapp.ui.screens.onboarding.components.OnboardingPageItem
-import com.example.habittrackerapp.ui.screens.onboarding.components.SocialLoginButton
 import com.example.habittrackerapp.ui.screens.onboarding.model.OnboardingPageModel
-import kotlinx.coroutines.launch
+
 
 @Composable
 fun OnboardingScreen(navController: NavController) {
@@ -73,7 +70,7 @@ fun OnboardingPager(pages: List<OnboardingPageModel>, pagerState: PagerState) {
 @Composable
 fun OnboardingBottomSection(navController: NavController) {
     Button(
-        onClick = { navController.navigate(Screen.Login.route) },
+        onClick = { navController.navigate(Screen.Home.route) },
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)

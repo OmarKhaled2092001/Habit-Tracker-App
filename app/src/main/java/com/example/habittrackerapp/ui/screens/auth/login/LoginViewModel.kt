@@ -23,9 +23,9 @@ class LoginViewModel : ViewModel() {
         loginState = loginState.copy(password = value)
     }
 
-    fun canLogin(): Boolean {
-        return loginState.emailValid && loginState.password.length >= 6
-    }
+//    fun canLogin(): Boolean {
+//        return loginState.emailValid && loginState.password.length >= 6
+//    }
 
     fun login(onSuccess: () -> Unit, onError: (String) -> Unit) {
         val email = loginState.email.trim()

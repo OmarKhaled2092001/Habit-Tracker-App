@@ -9,22 +9,22 @@ import com.example.habittrackerapp.ui.screens.auth.register.RegisterScreen
 import com.example.habittrackerapp.ui.screens.auth.forgot_password.ForgotPasswordScreen
 import com.example.habittrackerapp.ui.screens.auth.login.LoginScreen
 import com.example.habittrackerapp.ui.screens.gender.GenderScreen
-import com.example.habittrackerapp.ui.screens.home.HomeScreen
 import com.example.habittrackerapp.ui.screens.onboarding.OnboardingScreen
 import com.example.habittrackerapp.ui.screens.splash.SplashScreen
 import com.facebook.CallbackManager
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.habittrackerapp.ui.screens.habits.HabitsScreen
-import com.example.habittrackerapp.viewmodel.SharedViewModel
+import com.example.habittrackerapp.ui.screens.home.HomeScreen
+import com.example.habittrackerapp.ui.screens.custom_habit.CustomHabitScreen
+import com.example.habittrackerapp.ui.screens.habit_information.HabitInformationScreen
+import com.example.habittrackerapp.ui.screens.edit_profile.EditProfileScreen
+import com.example.habittrackerapp.ui.screens.settings.SettingsScreen
 
 @Composable
 fun NavGraph(
     navController: NavHostController,
     callbackManager: CallbackManager,
-    viewModel: SharedViewModel) {
-
-    // ✅ SharedViewModel initialized once and shared between screens
-    val sharedViewModel: SharedViewModel = viewModel()
+    ) {
 
     NavHost(navController = navController, startDestination = Screen.Splash.route) {
         composable(route = Screen.Splash.route) {
@@ -49,14 +49,29 @@ fun NavGraph(
             GenderScreen(navController)
         }
 
-        // ✅ Pass sharedViewModel to HabitsScreen
         composable(route = Screen.Habits.route) {
-            HabitsScreen(navController, sharedViewModel)
+            HabitsScreen(navController)
         }
 
-        // ✅ Pass sharedViewModel to HomeScreen
-        composable(route = Screen.Home.route) {
-            HomeScreen(navController, sharedViewModel)
+        composable(route = Screen.HomeScreen.route) {
+            HomeScreen(navController)
         }
+
+        composable(route = Screen.CustomHabit.route) {
+            CustomHabitScreen(navController)
+        }
+
+        composable(route = Screen.HabitInformation.route) {
+            HabitInformationScreen(navController)
+        }
+
+        composable(route = Screen.EditProfile.route) {
+            EditProfileScreen(navController)
+        }
+
+        composable(route = Screen.Settings.route) {
+            SettingsScreen(navController)
+        }
+
     }
 }

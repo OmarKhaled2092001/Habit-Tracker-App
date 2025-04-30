@@ -1,0 +1,52 @@
+package com.example.habittrackerapp.ui.components
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Icon // Use Material Icon
+import androidx.compose.material3.Text // Use Material 3 Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.habittrackerapp.R
+
+@Composable
+fun ActionButton(text: String, iconResId: Int, iconTint: Color, onClick: () -> Unit) {
+    Column( // Changed to Column for vertical layout
+        modifier = Modifier
+             .width(70.dp) // Fixed width might be needed depending on design
+            .clip(RoundedCornerShape(16.dp))
+            .clickable(onClick = onClick)
+            .background(iconTint.copy(alpha = 0.1f)) // Use a light background based on icon tint
+            .padding(horizontal = 12.dp, vertical = 8.dp), // Adjusted padding
+        horizontalAlignment = Alignment.CenterHorizontally, // Center items horizontally
+        verticalArrangement = Arrangement.Center // Center items vertically
+    ) {
+        Icon(
+            painter = painterResource(id = iconResId),
+            contentDescription = text,
+            tint = iconTint, // Use the provided tint color directly
+            modifier = Modifier.size(24.dp) // Slightly larger icon
+        )
+        Spacer(modifier = Modifier.height(4.dp)) // Height spacer for vertical layout
+        Text(
+            text = text,
+            color = iconTint, // Use tint color for text as well for consistency
+            fontSize = 14.sp // Slightly smaller text
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ActionButtonPreview() {
+    ActionButton(text = "View", iconResId = R.drawable.show, iconTint = Color.Blue) {}
+
+}

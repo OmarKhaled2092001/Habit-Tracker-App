@@ -10,6 +10,10 @@ sealed class Screen(val route: String) {
     object Gender : Screen("gender")
     object Habits : Screen("habits")
     object Home : Screen("home")
+    object HomeScreen : Screen("home_screen")
+    object CustomHabit : Screen("custom_habit")
+    object HabitInformation : Screen("habit_information")
+    object EditProfile : Screen("edit_profile")
     object Settings : Screen("settings")
-    // Add more as needed
+
 }

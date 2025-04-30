@@ -7,6 +7,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import com.google.firebase.firestore.FirebaseFirestore
 
 class RegisterViewModel : ViewModel() {
 
@@ -14,6 +15,7 @@ class RegisterViewModel : ViewModel() {
         private set
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     fun onFirstNameChanged(value: String) {
         registerState = registerState.copy(firstName = value)
@@ -61,7 +63,8 @@ class RegisterViewModel : ViewModel() {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    sendVerificationEmail(onSuccess, onError)
+                    // User registered successfully, now save basic data
+                    saveBasicUserDataToFirestore(onSuccess, onError)
                 } else {
                     registerState = registerState.copy(isLoading = false)
 
@@ -74,6 +77,32 @@ class RegisterViewModel : ViewModel() {
                 }
             }
     }
+
+    private fun saveBasicUserDataToFirestore(onSuccess: () -> Unit, onError: (String) -> Unit) {
+        val user = auth.currentUser
+        user?.let { firebaseUser ->
+            val userData = hashMapOf(
+                "firstName" to registerState.firstName,
+                "lastName" to registerState.lastName,
+                "email" to registerState.email
+                // Don't include gender or habits here
+            )
+
+            firestore.collection("users").document(firebaseUser.uid).set(userData)
+                .addOnSuccessListener {
+                    registerState = registerState.copy(isLoading = false)
+                    sendVerificationEmail(onSuccess, onError)
+                }
+                .addOnFailureListener { e ->
+                    registerState = registerState.copy(isLoading = false)
+                    onError(e.message ?: "Failed to save user data")
+                }
+        } ?: run {
+            registerState = registerState.copy(isLoading = false)
+            onError("User not authenticated")
+        }
+    }
+
 
     private fun sendVerificationEmail(onSuccess: () -> Unit, onError: (String) -> Unit) {
         val user = auth.currentUser
