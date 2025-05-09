@@ -21,25 +21,30 @@ import com.example.habittrackerapp.ui.screens.home.components.ProfileContent
 import com.example.habittrackerapp.ui.screens.home.components.showDatePicker
 import kotlinx.coroutines.launch
 
+// Import HabitInfo if needed for preview or specific type references, though viewModel handles the type
+// import com.example.habittrackerapp.data.HabitInfo
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     navController: NavController,
+    // Use the updated HomeViewModel which now works with HabitInfo
     viewModel: HomeViewModel = viewModel()
 ) {
     val context = LocalContext.current
     val selectedDate by viewModel.selectedDate.collectAsState()
     val fullName by viewModel.fullName.collectAsState()
+    // habits state now correctly holds List<HabitInfo> from the updated ViewModel
     val habits by viewModel.habits.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
 
-    // Fetch initial data
+    // Fetch initial data (ViewModel handles fetching HabitInfo)
     LaunchedEffect(Unit) {
         viewModel.fetchUserFullName()
         viewModel.fetchHabits()
     }
 
-    // State for bottom navigation and sheet
+    // State for bottom navigation and sheet (remains the same)
     var selectedIndex by rememberSaveable { mutableStateOf(0) }
     var showBottomSheet by rememberSaveable { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -56,7 +61,7 @@ fun HomeScreen(
                 navController = navController,
                 fullName = fullName,
                 selectedDate = selectedDate,
-                habits = habits,
+                habits = habits, // Pass the List<HabitInfo>
                 isLoading = isLoading,
                 onDateClick = {
                     showDatePicker(context) { pickedDate ->
@@ -65,19 +70,20 @@ fun HomeScreen(
                 },
                 onNotificationClick = { /* TODO: Implement notification logic */ },
                 onDateSelected = { viewModel.setSelectedDate(it) },
-                onDeleteHabit = { viewModel.deleteHabit(it) }
+                // Pass the correct deleteHabit function reference (takes HabitInfo)
+                onDeleteHabit = { habitInfo -> viewModel.deleteHabit(habitInfo) }
             )
             2 -> ProfileContent(navController = navController)
         }
 
-        // Bottom navigation bar
+        // Bottom navigation bar (remains the same)
         CustomBottomBar(
             selectedIndex = selectedIndex,
             onItemSelected = { index ->
                 selectedIndex = index
                 showBottomSheet = when (index) {
                     0 -> false // Home: Hide bottom sheet
-                    1 -> true  // Add Habit: Show bottom sheet
+                    1 -> true  // Add Habit: Show bottom sheet (as requested)
                     2 -> false // Profile: Hide bottom sheet
                     else -> false
                 }
@@ -88,7 +94,7 @@ fun HomeScreen(
                 .fillMaxWidth()
         )
 
-        // Bottom sheet for adding habits
+        // Bottom sheet for adding habits (remains the same, uses updated ViewModel)
         if (showBottomSheet) {
             ModalBottomSheet(
                 onDismissRequest = {
@@ -98,7 +104,7 @@ fun HomeScreen(
                 sheetState = sheetState
             ) {
                 BottomHabitSheetContent(
-                    viewModel = viewModel,
+                    viewModel = viewModel, // Pass the updated ViewModel
                     onHabitSelected = { /* Optional: Handle habit selection */ },
                     onCloseSheet = {
                         coroutineScope.launch { sheetState.hide() }.invokeOnCompletion {
@@ -116,5 +122,9 @@ fun HomeScreen(
 @Preview(showBackground = true)
 @Composable
 private fun HomeScreenPreview() {
+    // Preview might need a mock ViewModel providing sample HabitInfo data
+    // For simplicity, using the default viewModel() might work if dependencies are simple
+    // or if the preview HomeViewModel provides sample data.
     HomeScreen(navController = rememberNavController())
 }
+

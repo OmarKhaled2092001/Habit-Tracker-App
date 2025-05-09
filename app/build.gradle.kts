@@ -83,4 +83,10 @@ dependencies {
 
     implementation("androidx.compose.runtime:runtime-livedata:1.7.8")
     implementation("androidx.compose.runtime:runtime:1.7.8")
+
+    // Emoji Picker
+    implementation("com.github.Abhimanyu14:compose-emoji-picker:1.0.0-alpha16")
+    implementation("androidx.emoji2:emoji2:1.4.0")
+
+
 }

@@ -1,6 +1,5 @@
 package com.example.habittrackerapp.ui.screens.auth.check_your_email
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*

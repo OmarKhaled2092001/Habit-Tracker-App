@@ -14,15 +14,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.habittrackerapp.data.HabitItem
+import com.example.habittrackerapp.data.HabitInfo // Import HabitInfo
 import com.example.habittrackerapp.navigation.Screen
 import com.example.habittrackerapp.ui.components.SwipeableHabitCard
+import java.time.LocalDate
 
 /**
  * Main content of the HomeScreen, including app bar, greeting, day picker, and habits list.
@@ -31,13 +33,13 @@ import com.example.habittrackerapp.ui.components.SwipeableHabitCard
 fun HomeContent(
     navController: NavController,
     fullName: String?,
-    selectedDate: java.time.LocalDate,
-    habits: List<HabitItem>,
+    selectedDate: LocalDate,
+    habits: List<HabitInfo>, // Updated to use HabitInfo
     isLoading: Boolean,
     onDateClick: () -> Unit,
     onNotificationClick: () -> Unit,
-    onDateSelected: (java.time.LocalDate) -> Unit,
-    onDeleteHabit: (HabitItem) -> Unit
+    onDateSelected: (LocalDate) -> Unit,
+    onDeleteHabit: (HabitInfo) -> Unit // Updated to use HabitInfo
 ) {
     Column(
         modifier = Modifier
@@ -65,7 +67,8 @@ fun HomeContent(
                 CircularProgressIndicator()
             }
         } else {
-            HabitsList(habits = habits, onDeleteHabit = onDeleteHabit, navControler = navController)
+            // Pass HabitInfo list and delete function
+            HabitsList(habits = habits, onDeleteHabit = onDeleteHabit, navController = navController)
         }
     }
 }
@@ -75,24 +78,32 @@ fun HomeContent(
  */
 @Composable
 private fun HabitsList(
-    habits: List<HabitItem>,
-    onDeleteHabit: (HabitItem) -> Unit,
-    navControler: NavController
+    habits: List<HabitInfo>, // Updated to use HabitInfo
+    onDeleteHabit: (HabitInfo) -> Unit, // Updated to use HabitInfo
+    navController: NavController
 ) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(bottom = 80.dp),
+            .padding(bottom = 80.dp), // Adjust padding to avoid overlap with bottom bar
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(habits) { habit ->
+        items(habits, key = { it.habitName }) { habit -> // Use habitName as a key for stability
+            // Construct description dynamically (example)
+            val description = "Goal: ${habit.goalCount} ${habit.unit} ${habit.frequency}"
+            // Or keep the old description if progress tracking isn't implemented yet:
+            // val description = "0 of ${habit.goalCount} today"
+
             SwipeableHabitCard(
-                habitName = habit.name,
-                emoji = habit.emoji,
-                progressText = "0 of 5 today",
-                onDone = { /* TODO: Implement done logic */ },
-                onDelete = { onDeleteHabit(habit) },
-                onClick = { navControler.navigate(Screen.HabitInformation.route) }
+                habitName = habit.habitName,
+                selectedIcon = habit.selectedIcon,
+                selectedIconBackgroundColor = habit.selectedColor, // Use color from HabitInfo
+                description = description, // Use dynamic or placeholder description
+                onDone = { /* TODO: Implement done logic based on HabitInfo */ },
+                onDelete = { onDeleteHabit(habit) }, // Pass the HabitInfo object
+                onClick = {
+                    navController.navigate(Screen.HabitInformation.createRoute(habit.habitName))
+                }
             )
         }
     }
@@ -102,10 +113,26 @@ private fun HabitsList(
 @Preview(showBackground = true)
 @Composable
 private fun HomeContentPreview() {
+    // Preview needs sample HabitInfo data
+    val sampleHabits = listOf(
+        HabitInfo(
+            habitName = "Drink Water",
+            selectedIcon = "💧",
+            selectedColor = Color(0xFF41B3E8),
+            goalCount = "8",
+            unit = "glasses",
+            frequency = "Daily",
+            selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+            reminders = emptyList(),
+            note = "",
+            startDate = "01/01/2024",
+            endDate = ""
+        )
+    )
     HomeContent(
         fullName = "John Doe",
-        selectedDate = java.time.LocalDate.now(),
-        habits = emptyList(),
+        selectedDate = LocalDate.now(),
+        habits = sampleHabits, // Use sample HabitInfo
         isLoading = false,
         onDateClick = {},
         onNotificationClick = {},

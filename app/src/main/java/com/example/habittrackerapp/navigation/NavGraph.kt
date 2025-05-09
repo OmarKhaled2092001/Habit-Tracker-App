@@ -2,8 +2,10 @@ package com.example.habittrackerapp.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.habittrackerapp.ui.screens.auth.check_your_email.CheckYourEmailScreen
 import com.example.habittrackerapp.ui.screens.auth.register.RegisterScreen
 import com.example.habittrackerapp.ui.screens.auth.forgot_password.ForgotPasswordScreen
@@ -12,19 +14,18 @@ import com.example.habittrackerapp.ui.screens.gender.GenderScreen
 import com.example.habittrackerapp.ui.screens.onboarding.OnboardingScreen
 import com.example.habittrackerapp.ui.screens.splash.SplashScreen
 import com.facebook.CallbackManager
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.habittrackerapp.ui.screens.habits.HabitsScreen
 import com.example.habittrackerapp.ui.screens.home.HomeScreen
-import com.example.habittrackerapp.ui.screens.custom_habit.CustomHabitScreen
-import com.example.habittrackerapp.ui.screens.habit_information.HabitInformationScreen
 import com.example.habittrackerapp.ui.screens.edit_profile.EditProfileScreen
 import com.example.habittrackerapp.ui.screens.settings.SettingsScreen
+import com.example.habittrackerapp.ui.screens.custom_habit.CustomHabitScreen
+import com.example.habittrackerapp.ui.screens.new_habit.NewHabitScreen
+import com.example.habittrackerapp.ui.screens.habit_information.HabitInformationScreen
 
 @Composable
 fun NavGraph(
     navController: NavHostController,
     callbackManager: CallbackManager,
-    ) {
+) {
 
     NavHost(navController = navController, startDestination = Screen.Splash.route) {
         composable(route = Screen.Splash.route) {
@@ -42,18 +43,18 @@ fun NavGraph(
         composable(route = Screen.Register.route) {
             RegisterScreen(navController)
         }
-        composable(route = Screen.CheckYourEmail.route){
+        composable(route = Screen.CheckYourEmail.route) {
             CheckYourEmailScreen(navController)
         }
-        composable(route= Screen.Gender.route) {
+        composable(route = Screen.Gender.route) {
             GenderScreen(navController)
         }
 
-        composable(route = Screen.Habits.route) {
-            HabitsScreen(navController)
+        composable(route = Screen.NewHabit.route) {
+            NewHabitScreen(navController)
         }
 
-        composable(route = Screen.HomeScreen.route) {
+        composable(route = Screen.Home.route) {
             HomeScreen(navController)
         }
 
@@ -61,8 +62,17 @@ fun NavGraph(
             CustomHabitScreen(navController)
         }
 
-        composable(route = Screen.HabitInformation.route) {
-            HabitInformationScreen(navController)
+        // Updated composable for HabitInformationScreen to accept habitName argument
+        composable(
+            route = Screen.HabitInformation.route,
+            arguments = listOf(navArgument("habitName") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val habitName = backStackEntry.arguments?.getString("habitName")
+            if (habitName != null) {
+                HabitInformationScreen(navController = navController, habitNameArg = habitName)
+            } else {
+                navController.popBackStack()
+            }
         }
 
         composable(route = Screen.EditProfile.route) {
@@ -72,6 +82,6 @@ fun NavGraph(
         composable(route = Screen.Settings.route) {
             SettingsScreen(navController)
         }
-
     }
 }
+

@@ -19,14 +19,16 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.habittrackerapp.R
+import com.example.habittrackerapp.ui.components.action_button.ActionButton
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterialApi::class) // Needed for swipeable
 @Composable
 fun SwipeableHabitCard(
     habitName: String,
-    emoji: String,
-    progressText: String,
+    selectedIcon: String,
+    selectedIconBackgroundColor: Color,
+    description: String,
     onDone: () -> Unit,
     onDelete: () -> Unit,
     onClick: () -> Unit, // Added onClick parameter
@@ -60,7 +62,11 @@ fun SwipeableHabitCard(
             horizontalArrangement = Arrangement.End,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ActionButton("Delete", R.drawable.close, Color(0xFFFF7043), onClick = onDelete)
+            ActionButton(
+                label = "Delete",
+                iconRes = R.drawable.delete,
+                backgroundColor = Color(0xFFFF7043),
+                onClick = onDelete)
         }
 
         // Right swipe (Done)
@@ -72,7 +78,11 @@ fun SwipeableHabitCard(
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ActionButton("Done", R.drawable.tick_square, Color(0xFF66BB6A), onClick = onDone)
+            ActionButton(
+                label = "Done",
+                iconRes = R.drawable.done,
+                backgroundColor = Color(0xFF66BB6A),
+                onClick = onDone)
         }
 
         // The Habit Card
@@ -81,7 +91,7 @@ fun SwipeableHabitCard(
                 .offset { IntOffset(swipeableState.offset.value.roundToInt(), 0) }
                 .fillMaxWidth()
                 .height(90.dp)
-                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .padding( vertical = 8.dp)
                 .clickable { onClick() }, // Added clickable modifier
             elevation = 4.dp,
             shape = RoundedCornerShape(16.dp),
@@ -99,10 +109,10 @@ fun SwipeableHabitCard(
                     Box(
                         modifier = Modifier
                             .size(50.dp)
-                            .background(Color(0xFFE3F2FD), shape = CircleShape),
+                            .background(selectedIconBackgroundColor, shape = CircleShape),
                         contentAlignment = Alignment.Center
                     ) {
-                        Text(text = emoji, fontSize = 26.sp)
+                        Text(text = selectedIcon, fontSize = 26.sp)
                     }
                     Spacer(modifier = Modifier.width(12.dp))
                     Column {
@@ -113,7 +123,7 @@ fun SwipeableHabitCard(
                             color = Color.DarkGray
                         )
                         Spacer(modifier = Modifier.height(4.dp))
-                        Text(text = progressText, fontSize = 14.sp, color = Color.Gray)
+                        Text(text = description, fontSize = 14.sp, color = Color.Gray)
                     }
                 }
             }
@@ -126,10 +136,11 @@ fun SwipeableHabitCard(
 fun PreviewSwipeableHabitCard() {
     SwipeableHabitCard(
         habitName = "Drink Water",
-        progressText = "2 of 5 times today",
-        emoji = "💧",
-        onDone = { println("Done clicked") },
-        onDelete = { println("Delete clicked") },
-        onClick = { println("Card clicked") } // Added onClick for preview
+        description = "2 of 5 times today",
+        selectedIcon = "💧",
+        selectedIconBackgroundColor = Color(0xFF9C27B0),
+        onDone = {  },
+        onDelete = {  },
+        onClick = {  } // Added onClick for preview
     )
 }

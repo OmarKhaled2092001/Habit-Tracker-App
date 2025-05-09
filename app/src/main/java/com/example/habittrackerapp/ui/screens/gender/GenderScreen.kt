@@ -112,7 +112,7 @@ fun GenderScreen(
                 onClick = {
                     viewModel.saveGender(
                         onSuccess = {
-                            navController.navigate(Screen.Habits.route)
+                            navController.navigate(Screen.NewHabit.route)
                         },
                         onFailure = { e ->
                             Log.e("GenderScreen", "Error saving gender", e)

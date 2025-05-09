@@ -8,11 +8,15 @@ sealed class Screen(val route: String) {
     object Register : Screen("register")
     object CheckYourEmail : Screen("check_your_email")
     object Gender : Screen("gender")
-    object Habits : Screen("habits")
+    object NewHabit : Screen("new_habit")
     object Home : Screen("home")
-    object HomeScreen : Screen("home_screen")
     object CustomHabit : Screen("custom_habit")
-    object HabitInformation : Screen("habit_information")
+
+
+    object HabitInformation : Screen("habit_information/{habitName}") {
+        fun createRoute(habitName: String) = "habit_information/$habitName"
+    }
+
     object EditProfile : Screen("edit_profile")
     object Settings : Screen("settings")
 

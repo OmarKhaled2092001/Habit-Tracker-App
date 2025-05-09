@@ -1,0 +1,110 @@
+//package com.example.habittrackerapp.ui.screens.habit_information.components
+//
+//import androidx.compose.foundation.layout.Arrangement
+//import androidx.compose.foundation.layout.Column
+//import androidx.compose.foundation.layout.Row
+//import androidx.compose.foundation.layout.Spacer
+//import androidx.compose.foundation.layout.fillMaxWidth
+//import androidx.compose.foundation.layout.height
+//import androidx.compose.foundation.layout.heightIn
+//import androidx.compose.foundation.layout.padding
+//import androidx.compose.foundation.layout.size
+//import androidx.compose.foundation.shape.RoundedCornerShape
+//import androidx.compose.material.icons.Icons
+//import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+//import androidx.compose.material3.Card
+//import androidx.compose.material3.CardDefaults
+//import androidx.compose.material3.Icon
+//import androidx.compose.material3.IconButton
+//import androidx.compose.material3.Text
+//import androidx.compose.runtime.Composable
+//import androidx.compose.ui.Alignment
+//import androidx.compose.ui.Modifier
+//import androidx.compose.ui.graphics.Color
+//import androidx.compose.ui.semantics.contentDescription
+//import androidx.compose.ui.semantics.semantics
+//import androidx.compose.ui.text.font.FontWeight
+//import androidx.compose.ui.tooling.preview.Preview
+//import androidx.compose.ui.unit.dp
+//import androidx.compose.ui.unit.sp
+//import com.example.habittrackerapp.ui.screens.habit_information.HabitInformationColors
+//import com.example.habittrackerapp.ui.screens.habit_information.generateHabitInformationColors
+//
+//@Composable
+//fun HabitPerformanceChartSection(
+//    completionRate: String,
+//    chartData: List<Float>,
+//    highlightIndex: Int,
+//    highlightValue: String,
+//    colors: HabitInformationColors,
+//    onDetailsClick: () -> Unit
+//) {
+//    Card(
+//        modifier = Modifier.fillMaxWidth(),
+//        shape = RoundedCornerShape(12.dp),
+//        colors = CardDefaults.cardColors(containerColor = Color.White),
+//        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+//    ) {
+//        Column(
+//            modifier = Modifier
+//                .padding(16.dp)
+//                .heightIn(min = 200.dp)
+//        ) {
+//            Row(
+//                modifier = Modifier.fillMaxWidth(),
+//                verticalAlignment = Alignment.CenterVertically,
+//                horizontalArrangement = Arrangement.SpaceBetween
+//            ) {
+//                Column {
+//                    Text(
+//                        text = "HABIT DEVELOPMENT",
+//                        fontSize = 10.sp,
+//                        fontWeight = FontWeight.Bold,
+//                        color = Color.Gray
+//                    )
+//                    Spacer(modifier = Modifier.height(2.dp))
+//                    Text(
+//                        text = "Completion rate - $completionRate",
+//                        fontSize = 14.sp,
+//                        fontWeight = FontWeight.Bold,
+//                        color = Color.Black
+//                    )
+//                }
+//                IconButton(
+//                    onClick = onDetailsClick,
+//                    modifier = Modifier
+//                        .size(24.dp)
+//                        .semantics { contentDescription = "View habit performance details" }
+//                ) {
+//                    Icon(
+//                        Icons.AutoMirrored.Filled.KeyboardArrowRight,
+//                        contentDescription = null,
+//                    )
+//                }
+//            }
+//            Spacer(modifier = Modifier.height(16.dp))
+//            WeeklyBarChart(
+//                data = chartData,
+//                highlightIndex = highlightIndex,
+//                highlightValue = highlightValue,
+//                colors = colors,
+//                modifier = Modifier.weight(1f)
+//            )
+//        }
+//    }
+//}
+//
+//@Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
+//@Composable
+//fun HabitPerformanceChartSectionPreview() {
+//    val colors = generateHabitInformationColors(Color(0xFF2196F3))
+//    HabitPerformanceChartSection(
+//        completionRate = "25%",
+//        chartData = listOf(8f, 3f, 8f, 5f, 12f, 2f, 7f),
+//        highlightIndex = 4,
+//        highlightValue = "2,313",
+//        colors = colors,
+//        onDetailsClick = {}
+//    )
+//}
+//

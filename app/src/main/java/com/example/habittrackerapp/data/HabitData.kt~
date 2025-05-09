@@ -1,0 +1,659 @@
+//package com.example.habittrackerapp.data
+//
+//import com.example.habittrackerapp.utils.HabitColors
+//
+//val habits = listOf(
+//    HabitInfo(
+//        habitName = "Drink Water",
+//        selectedIcon = "💧",
+//        selectedColor = HabitColors.colorOptions[0],
+//        goalCount = "8",
+//        unit = "Cups",
+//        frequency = "Daily",
+//        selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+//        reminders = listOf(
+//            Reminder(
+//                title = "Start your day with water 💧",
+//                time = "8:00 AM",
+//                frequency = "Daily",
+//                selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+//                isEnabled = true
+//            ),
+//            Reminder(
+//                title = "Stay Hydrated!",
+//                time = "12:00 PM",
+//                frequency = "Daily",
+//                selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+//                isEnabled = true
+//            ),
+//            Reminder(
+//                title = "Don't forget your water",
+//                time = "4:00 PM",
+//                frequency = "Daily",
+//                selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+//                isEnabled = true
+//            ),
+//            Reminder(
+//                title = "Final glass before bed",
+//                time = "9:00 PM",
+//                frequency = "Daily",
+//                selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+//                isEnabled = true
+//            )
+//        ),
+//        note = "Drinking water regularly helps maintain energy, improves skin health, and supports metabolism. Try to drink one cup every 2–3 hours.",
+//        startDate = "05/03/2025",
+//        endDate = ""
+//    ),
+//    HabitInfo(
+//        habitName = "Exercise",
+//        selectedIcon = "🏋️‍♂️",
+//        selectedColor = HabitColors.colorOptions[1],
+//        goalCount = "30",
+//        unit = "Minutes",
+//        frequency = "Weekly",
+//        selectedDays = listOf("Mon", "Wed", "Fri"),
+//        reminders = listOf(
+//            Reminder(
+//                title = "Workout Time 💪",
+//                time = "7:00 AM",
+//                frequency = "Weekly",
+//                selectedDays = listOf("Mon", "Wed", "Fri"),
+//                isEnabled = true
+//            ),
+//            Reminder(
+//                title = "Evening Stretch 🧘‍♂️",
+//                time = "8:00 PM",
+//                frequency = "Weekly",
+//                selectedDays = listOf("Mon", "Wed", "Fri"),
+//                isEnabled = true
+//            )
+//        ),
+//        note = "Exercising regularly boosts energy, improves mood, strengthens muscles, and helps maintain a healthy weight. Start light and stay consistent.",
+//        startDate = "05/03/2025",
+//        endDate = ""
+//    ),
+//    HabitInfo(
+//        habitName = "Sleep Early",
+//        selectedIcon = "🌙",
+//        selectedColor = HabitColors.colorOptions[2],
+//        goalCount = "8",
+//        unit = "Hours",
+//        frequency = "Daily",
+//        selectedDays = listOf("Sun", "Mon", "Tue", "Wed", "Thu"),
+//        reminders = listOf(
+//            Reminder(
+//                title = "Start winding down 🌙",
+//                time = "9:00 PM",
+//                frequency = "Daily",
+//                selectedDays = listOf("Sun", "Mon", "Tue", "Wed", "Thu"),
+//                isEnabled = true
+//            ),
+//            Reminder(
+//                title = "Time to sleep 😴",
+//                time = "10:30 PM",
+//                frequency = "Daily",
+//                selectedDays = listOf("Sun", "Mon", "Tue", "Wed", "Thu"),
+//                isEnabled = true
+//            )
+//        ),
+//        note = "Sleeping early improves memory, focus, mood, and immune system. Try to avoid screens 1 hour before bedtime and keep a consistent routine.",
+//        startDate = "05/03/2025",
+//        endDate = ""
+//    ),
+//    HabitInfo(
+//        habitName = "Read a Book",
+//        selectedIcon = "📚",
+//        selectedColor = HabitColors.colorOptions[3],
+//        goalCount = "20",
+//        unit = "Minutes",
+//        frequency = "Daily",
+//        selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri"),
+//        reminders = listOf(
+//            Reminder(
+//                title = "Reading Time 📖",
+//                time = "9:00 PM",
+//                frequency = "Daily",
+//                selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri"),
+//                isEnabled = true
+//            )
+//        ),
+//        note = "Reading regularly enhances vocabulary, reduces stress, and boosts mental stimulation. Even 20 minutes a day makes a difference!",
+//        startDate = "05/03/2025",
+//        endDate = ""
+//    ),
+//    HabitInfo(
+//        habitName = "Meditation",
+//        selectedIcon = "🧘‍♂️",
+//        selectedColor = HabitColors.colorOptions[4],
+//        goalCount = "10",
+//        unit = "Minutes",
+//        frequency = "Daily",
+//        selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat"),
+//        reminders = listOf(
+//            Reminder(
+//                title = "Morning Meditation ☀️",
+//                time = "7:30 AM",
+//                frequency = "Daily",
+//                selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri"),
+//                isEnabled = true
+//            ),
+//            Reminder(
+//                title = "Evening Calm 🌙",
+//                time = "9:00 PM",
+//                frequency = "Daily",
+//                selectedDays = listOf("Sat"),
+//                isEnabled = true
+//            )
+//        ),
+//        note = "Meditation helps reduce anxiety, improve emotional health, and enhance self-awareness. Start with deep breathing and focus on the present moment.",
+//        startDate = "05/03/2025",
+//        endDate = ""
+//    ),
+//    HabitInfo(
+//        habitName = "Daily Walk",
+//        selectedIcon = "🚶‍♂️",
+//        selectedColor = HabitColors.colorOptions[5],
+//        goalCount = "20",
+//        unit = "Minutes",
+//        frequency = "Daily",
+//        selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+//        reminders = listOf(
+//            Reminder(
+//                title = "Time for a Walk 👟",
+//                time = "6:00 PM",
+//                frequency = "Daily",
+//                selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+//                isEnabled = true
+//            )
+//        ),
+//        note = "Walking daily improves heart health, boosts mood, and supports weight control. Try to walk in nature or listen to a podcast while walking.",
+//        startDate = "05/03/2025",
+//        endDate = ""
+//    ),
+//    HabitInfo(
+//        habitName = "No Sugar",
+//        selectedIcon = "🚫🍬",
+//        selectedColor = HabitColors.colorOptions[6],
+//        goalCount = "1",
+//        unit = "Day",
+//        frequency = "Daily",
+//        selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+//        reminders = listOf(
+//            Reminder(
+//                title = "Avoid Sugar Reminder 🚫",
+//                time = "12:00 PM",
+//                frequency = "Daily",
+//                selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+//                isEnabled = true
+//            )
+//        ),
+//        note = "Cutting sugar helps balance energy levels, improve focus, and reduce cravings. Focus on eating whole foods and drink more water to avoid sugar temptations.",
+//        startDate = "05/03/2025",
+//        endDate = ""
+//    ),
+//    HabitInfo(
+//        habitName = "No Junk Food",
+//        selectedIcon = "🍔🚫",
+//        selectedColor = HabitColors.colorOptions[7],
+//        goalCount = "1",
+//        unit = "Day",
+//        frequency = "Daily",
+//        selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri"),
+//        reminders = listOf(
+//            Reminder(
+//                title = "Skip Junk Food 🍕🚫",
+//                time = "1:00 PM",
+//                frequency = "Daily",
+//                selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri"),
+//                isEnabled = true
+//            )
+//        ),
+//        note = "Avoiding junk food helps with digestion, weight management, and energy stability. Prepare healthy snacks in advance to resist cravings.",
+//        startDate = "05/03/2025",
+//        endDate = ""
+//    ),
+//    HabitInfo(
+//        habitName = "Healthy Breakfast",
+//        selectedIcon = "🥣",
+//        selectedColor = HabitColors.colorOptions[8],
+//        goalCount = "1",
+//        unit = "Meal",
+//        frequency = "Daily",
+//        selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat"),
+//        reminders = listOf(
+//            Reminder(
+//                title = "Don’t Skip Your Healthy Breakfast 🍳",
+//                time = "8:00 AM",
+//                frequency = "Daily",
+//                selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat"),
+//                isEnabled = true
+//            )
+//        ),
+//        note = "Starting your day with a nutritious breakfast boosts energy, supports metabolism, and enhances concentration. Include protein, fiber, and healthy fats.",
+//        startDate = "05/03/2025",
+//        endDate = ""
+//    ),
+//    HabitInfo(
+//        habitName = "Reduce Screen Time",
+//        selectedIcon = "📵",
+//        selectedColor = HabitColors.colorOptions[9],
+//        goalCount = "2",
+//        unit = "Hours Max",
+//        frequency = "Daily",
+//        selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+//        reminders = listOf(
+//            Reminder(
+//                title = "Take a screen break 👀",
+//                time = "4:00 PM",
+//                frequency = "Daily",
+//                selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri"),
+//                isEnabled = true
+//            ),
+//            Reminder(
+//                title = "No screen before sleep 💤",
+//                time = "9:30 PM",
+//                frequency = "Daily",
+//                selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri"),
+//                isEnabled = true
+//            )
+//        ),
+//        note = "Reducing screen time improves sleep, boosts mental clarity, and helps maintain eye health. Try reading a book or taking a walk instead of scrolling.",
+//        startDate = "05/03/2025",
+//        endDate = ""
+//    ),
+//    HabitInfo(
+//        habitName = "Social Detox",
+//        selectedIcon = "📴",
+//        selectedColor = HabitColors.colorOptions[10],
+//        goalCount = "1",
+//        unit = "Day",
+//        frequency = "Weekly",
+//        selectedDays = listOf("Sun"),
+//        reminders = listOf(
+//            Reminder(
+//                title = "Social Detox Day ✨",
+//                time = "10:00 AM",
+//                frequency = "Weekly",
+//                selectedDays = listOf("Sun"),
+//                isEnabled = true
+//            )
+//        ),
+//        note = "Take a break from social media to reset your mind, reduce anxiety, and enjoy the real world. Try journaling, walking, or meeting someone offline instead.",
+//        startDate = "05/04/2025",
+//        endDate = ""
+//    ),
+//    HabitInfo(
+//        habitName = "Daily Stretching",
+//        selectedIcon = "🤸",
+//        selectedColor = HabitColors.colorOptions[11],
+//        goalCount = "10",
+//        unit = "Minutes",
+//        frequency = "Daily",
+//        selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+//        reminders = listOf(
+//            Reminder(
+//                title = "Time to Stretch 💪",
+//                time = "7:30 AM",
+//                frequency = "Daily",
+//                selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+//                isEnabled = true
+//            )
+//        ),
+//        note = "Stretching daily improves flexibility, reduces muscle tension, and boosts blood circulation. Try simple neck, shoulder, back, and leg stretches.",
+//        startDate = "05/04/2025",
+//        endDate = "06/04/2025"
+//    ),
+//    HabitInfo(
+//        habitName = "Breath-work",
+//        selectedIcon = "😮‍💨",
+//        selectedColor = HabitColors.colorOptions[12],
+//        goalCount = "5",
+//        unit = "Minutes",
+//        frequency = "Daily",
+//        selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+//        reminders = listOf(
+//            Reminder(
+//                title = "Pause & Breathe 🌬️",
+//                time = "10:00 AM",
+//                frequency = "Daily",
+//                selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+//                isEnabled = true
+//            )
+//        ),
+//        note = "Practicing breath-work calms the nervous system, reduces anxiety, and increases focus. Try box breathing (4-4-4-4) or deep belly breathing.",
+//        startDate = "05/04/2025",
+//        endDate = ""
+//    )
+//)
+
+
+package com.example.habittrackerapp.data
+
+import com.example.habittrackerapp.utils.HabitColors
+
+val habits = listOf(
+    HabitInfo(
+        habitName = "Drink Water",
+        selectedIcon = "💧",
+        selectedColor = HabitColors.colorOptions[0],
+        goalCount = "8",
+        unit = "Cups",
+        frequency = "Daily",
+        selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+        reminders = listOf(
+            Reminder(
+                title = "Start your day with water 💧",
+                time = "8:00 AM",
+                frequency = "Daily",
+                selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+                isEnabled = true
+            ),
+            Reminder(
+                title = "Stay Hydrated!",
+                time = "12:00 PM",
+                frequency = "Daily",
+                selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+                isEnabled = true
+            ),
+            Reminder(
+                title = "Don't forget your water",
+                time = "4:00 PM",
+                frequency = "Daily",
+                selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+                isEnabled = true
+            ),
+            Reminder(
+                title = "Final glass before bed",
+                time = "9:00 PM",
+                frequency = "Daily",
+                selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+                isEnabled = true
+            )
+        ),
+        note = "Drinking water regularly helps maintain energy, improves skin health, and supports metabolism. Try to drink one cup every 2–3 hours.",
+        startDate = "",
+        endDate = ""
+    ),
+    HabitInfo(
+        habitName = "Exercise",
+        selectedIcon = "🏋️‍♂️",
+        selectedColor = HabitColors.colorOptions[1],
+        goalCount = "30",
+        unit = "Minutes",
+        frequency = "Weekly",
+        selectedDays = listOf("Mon", "Wed", "Fri"),
+        reminders = listOf(
+            Reminder(
+                title = "Workout Time 💪",
+                time = "7:00 AM",
+                frequency = "Weekly",
+                selectedDays = listOf("Mon", "Wed", "Fri"),
+                isEnabled = true
+            ),
+            Reminder(
+                title = "Evening Stretch 🧘‍♂️",
+                time = "8:00 PM",
+                frequency = "Weekly",
+                selectedDays = listOf("Mon", "Wed", "Fri"),
+                isEnabled = true
+            )
+        ),
+        note = "Exercising regularly boosts energy, improves mood, strengthens muscles, and helps maintain a healthy weight. Start light and stay consistent.",
+        startDate = "",
+        endDate = ""
+    ),
+    HabitInfo(
+        habitName = "Sleep Early",
+        selectedIcon = "🌙",
+        selectedColor = HabitColors.colorOptions[2],
+        goalCount = "8",
+        unit = "Hours",
+        frequency = "Daily",
+        selectedDays = listOf("Sun", "Mon", "Tue", "Wed", "Thu"),
+        reminders = listOf(
+            Reminder(
+                title = "Start winding down 🌙",
+                time = "9:00 PM",
+                frequency = "Daily",
+                selectedDays = listOf("Sun", "Mon", "Tue", "Wed", "Thu"),
+                isEnabled = true
+            ),
+            Reminder(
+                title = "Time to sleep 😴",
+                time = "10:30 PM",
+                frequency = "Daily",
+                selectedDays = listOf("Sun", "Mon", "Tue", "Wed", "Thu"),
+                isEnabled = true
+            )
+        ),
+        note = "Sleeping early improves memory, focus, mood, and immune system. Try to avoid screens 1 hour before bedtime and keep a consistent routine.",
+        startDate = "",
+        endDate = ""
+    ),
+    HabitInfo(
+        habitName = "Read a Book",
+        selectedIcon = "📚",
+        selectedColor = HabitColors.colorOptions[3],
+        goalCount = "20",
+        unit = "Minutes",
+        frequency = "Daily",
+        selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri"),
+        reminders = listOf(
+            Reminder(
+                title = "Reading Time 📖",
+                time = "9:00 PM",
+                frequency = "Daily",
+                selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri"),
+                isEnabled = true
+            )
+        ),
+        note = "Reading regularly enhances vocabulary, reduces stress, and boosts mental stimulation. Even 20 minutes a day makes a difference!",
+        startDate = "",
+        endDate = ""
+    ),
+    HabitInfo(
+        habitName = "Meditation",
+        selectedIcon = "🧘‍♂️",
+        selectedColor = HabitColors.colorOptions[4],
+        goalCount = "10",
+        unit = "Minutes",
+        frequency = "Daily",
+        selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat"),
+        reminders = listOf(
+            Reminder(
+                title = "Morning Meditation ☀️",
+                time = "7:30 AM",
+                frequency = "Daily",
+                selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri"),
+                isEnabled = true
+            ),
+            Reminder(
+                title = "Evening Calm 🌙",
+                time = "9:00 PM",
+                frequency = "Daily",
+                selectedDays = listOf("Sat"),
+                isEnabled = true
+            )
+        ),
+        note = "Meditation helps reduce anxiety, improve emotional health, and enhance self-awareness. Start with deep breathing and focus on the present moment.",
+        startDate = "",
+        endDate = ""
+    ),
+    HabitInfo(
+        habitName = "Daily Walk",
+        selectedIcon = "🚶‍♂️",
+        selectedColor = HabitColors.colorOptions[5],
+        goalCount = "20",
+        unit = "Minutes",
+        frequency = "Daily",
+        selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+        reminders = listOf(
+            Reminder(
+                title = "Time for a Walk 👟",
+                time = "6:00 PM",
+                frequency = "Daily",
+                selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+                isEnabled = true
+            )
+        ),
+        note = "Walking daily improves heart health, boosts mood, and supports weight control. Try to walk in nature or listen to a podcast while walking.",
+        startDate = "",
+        endDate = ""
+    ),
+    HabitInfo(
+        habitName = "No Sugar",
+        selectedIcon = "🚫🍬",
+        selectedColor = HabitColors.colorOptions[6],
+        goalCount = "1",
+        unit = "Day",
+        frequency = "Daily",
+        selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+        reminders = listOf(
+            Reminder(
+                title = "Avoid Sugar Reminder 🚫",
+                time = "12:00 PM",
+                frequency = "Daily",
+                selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+                isEnabled = true
+            )
+        ),
+        note = "Cutting sugar helps balance energy levels, improve focus, and reduce cravings. Focus on eating whole foods and drink more water to avoid sugar temptations.",
+        startDate = "",
+        endDate = ""
+    ),
+    HabitInfo(
+        habitName = "No Junk Food",
+        selectedIcon = "🍔🚫",
+        selectedColor = HabitColors.colorOptions[7],
+        goalCount = "1",
+        unit = "Day",
+        frequency = "Daily",
+        selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri"),
+        reminders = listOf(
+            Reminder(
+                title = "Skip Junk Food 🍕🚫",
+                time = "1:00 PM",
+                frequency = "Daily",
+                selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri"),
+                isEnabled = true
+            )
+        ),
+        note = "Avoiding junk food helps with digestion, weight management, and energy stability. Prepare healthy snacks in advance to resist cravings.",
+        startDate = "",
+        endDate = ""
+    ),
+    HabitInfo(
+        habitName = "Healthy Breakfast",
+        selectedIcon = "🥣",
+        selectedColor = HabitColors.colorOptions[8],
+        goalCount = "1",
+        unit = "Meal",
+        frequency = "Daily",
+        selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat"),
+        reminders = listOf(
+            Reminder(
+                title = "Don’t Skip Your Healthy Breakfast 🍳",
+                time = "8:00 AM",
+                frequency = "Daily",
+                selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat"),
+                isEnabled = true
+            )
+        ),
+        note = "Starting your day with a nutritious breakfast boosts energy, supports metabolism, and enhances concentration. Include protein, fiber, and healthy fats.",
+        startDate = "",
+        endDate = ""
+    ),
+    HabitInfo(
+        habitName = "Reduce Screen Time",
+        selectedIcon = "📵",
+        selectedColor = HabitColors.colorOptions[9],
+        goalCount = "2",
+        unit = "Hours Max",
+        frequency = "Daily",
+        selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+        reminders = listOf(
+            Reminder(
+                title = "Take a screen break 👀",
+                time = "4:00 PM",
+                frequency = "Daily",
+                selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri"),
+                isEnabled = true
+            ),
+            Reminder(
+                title = "No screen before sleep 💤",
+                time = "9:30 PM",
+                frequency = "Daily",
+                selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri"),
+                isEnabled = true
+            )
+        ),
+        note = "Reducing screen time improves sleep, boosts mental clarity, and helps maintain eye health. Try reading a book or taking a walk instead of scrolling.",
+        startDate = "",
+        endDate = ""
+    ),
+    HabitInfo(
+        habitName = "Social Detox",
+        selectedIcon = "📴",
+        selectedColor = HabitColors.colorOptions[10],
+        goalCount = "1",
+        unit = "Day",
+        frequency = "Weekly",
+        selectedDays = listOf("Sun"),
+        reminders = listOf(
+            Reminder(
+                title = "Social Detox Day ✨",
+                time = "10:00 AM",
+                frequency = "Weekly",
+                selectedDays = listOf("Sun"),
+                isEnabled = true
+            )
+        ),
+        note = "Take a break from social media to reset your mind, reduce anxiety, and enjoy the real world. Try journaling, walking, or meeting someone offline instead.",
+        startDate = "",
+        endDate = ""
+    ),
+    HabitInfo(
+        habitName = "Daily Stretching",
+        selectedIcon = "🤸",
+        selectedColor = HabitColors.colorOptions[11],
+        goalCount = "10",
+        unit = "Minutes",
+        frequency = "Daily",
+        selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+        reminders = listOf(
+            Reminder(
+                title = "Time to Stretch 💪",
+                time = "7:30 AM",
+                frequency = "Daily",
+                selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+                isEnabled = true
+            )
+        ),
+        note = "Stretching daily improves flexibility, reduces muscle tension, and boosts blood circulation. Try simple neck, shoulder, back, and leg stretches.",
+        startDate = "",
+        endDate = "06/04/2025"
+    ),
+    HabitInfo(
+        habitName = "Breath-work",
+        selectedIcon = "😮‍💨",
+        selectedColor = HabitColors.colorOptions[12],
+        goalCount = "5",
+        unit = "Minutes",
+        frequency = "Daily",
+        selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+        reminders = listOf(
+            Reminder(
+                title = "Pause & Breathe 🌬️",
+                time = "10:00 AM",
+                frequency = "Daily",
+                selectedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+                isEnabled = true
+            )
+        ),
+        note = "Practicing breath-work calms the nervous system, reduces anxiety, and increases focus. Try box breathing (4-4-4-4) or deep belly breathing.",
+        startDate = "",
+        endDate = ""
+    )
+)
+

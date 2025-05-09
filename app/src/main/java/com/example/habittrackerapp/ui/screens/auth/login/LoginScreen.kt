@@ -130,7 +130,7 @@ fun LoginScreen(
                     viewModel.login(
                         onSuccess = {
                             loginError.value = null
-                            navController.navigate(Screen.HomeScreen.route)
+                            navController.navigate(Screen.Home.route)
                         },
                         onError = { error -> loginError.value = error }
                     )

@@ -1,0 +1,4 @@
+package com.example.habittrackerapp.ui.screens.habit_information
+
+class HabitColors {
+}

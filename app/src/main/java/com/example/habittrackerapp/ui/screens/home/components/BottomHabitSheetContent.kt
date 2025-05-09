@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.itemsIndexed // Keep using itemsIndexed for color cycling
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -37,6 +37,11 @@ import com.example.habittrackerapp.ui.screens.home.AddHabitResult
 import com.example.habittrackerapp.ui.screens.home.HomeViewModel
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
+// Import necessary components and data
+import com.example.habittrackerapp.data.habits as popularHabits // Use data from HabitData.kt, alias for clarity
+import com.example.habittrackerapp.ui.components.habit_card.HabitCard // Import HabitCard
+import com.example.habittrackerapp.utils.HabitColors // Import HabitColors for cycling
+import com.example.habittrackerapp.data.HabitInfo // Import HabitInfo for data model
 
 /**
  * Bottom sheet content for adding new habits.
@@ -44,58 +49,33 @@ import kotlinx.coroutines.launch
 @Composable
 fun BottomHabitSheetContent(
     viewModel: HomeViewModel,
-    onHabitSelected: (String) -> Unit,
+    onHabitSelected: (String) -> Unit, // Keep this callback if needed after adding
     onCloseSheet: () -> Unit,
     navController: NavController
 ) {
     val context = LocalContext.current
-    val popularHabits = listOf(
-        "💧" to "Drink water",
-        "🏃‍♂️" to "Run",
-        "📖" to "Read books",
-        "🧘‍♀️" to "Meditate",
-        "👨‍💻" to "Study",
-        "📕" to "Journal",
-        "🌿" to "Nature",
-        "😴" to "Sleep",
-        "🎨" to "Paint",
-        "🚶" to "Daily Steps",
-        "🎮" to "Games",
-        "📽️" to "Movies",
-        "🏋️" to "Workout"
-    )
-    val colors = listOf(
-        Color(0xCDEE719B),
-        Color(0xC86DD572),
-        Color(0x86682873),
-        Color(0x9C7082E7),
-        Color(0xFFBCC75A),
-        Color(0xFFDE866A),
-        Color(0x9E009688),
-        Color(0xFF7E9652),
-        Color(0xFF6C3483),
-        Color(0xFF2ECC71),
-        Color(0xFF3498DB),
-        Color(0xFFF1C40F),
-        Color(0xFFE74C3C),
-    )
+    // Data is now sourced from HabitData.habits (aliased as popularHabits)
+
+    // Get the color options for cycling
+    val colors = HabitColors.colorOptions
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-        // Custom habit button
+        // Custom habit button (remains unchanged)
         Button(
             onClick = {
                 navController.navigate(Screen.CustomHabit.route)
+                onCloseSheet() // Close sheet when navigating to custom habit screen
             },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(64.dp),
             shape = RoundedCornerShape(16.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF5B5C9F),
+                containerColor = Color(0xFF2962FF),
                 contentColor = Color.White
             )
         ) {
@@ -125,30 +105,39 @@ fun BottomHabitSheetContent(
         )
         Spacer(modifier = Modifier.height(12.dp))
 
-        // Popular habits list
+        // Popular habits list - Updated to use LazyRow with HabitCard
         LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            itemsIndexed(popularHabits) { index, (emoji, name) ->
-                PopularHabitItem(
-                    emoji = emoji,
-                    name = name,
-                    backgroundColor = colors[index % colors.size],
+            // Use itemsIndexed to get index for color cycling, consistent with NewHabitScreen approach
+            itemsIndexed(popularHabits) { index, habit -> // habit is HabitInfo
+                HabitCard(
+                    habitName = habit.habitName,
+                    selectedIcon = habit.selectedIcon,
+                    selectedColor = habit.selectedColor, // Use color from HabitInfo data
+                    goalCount = habit.goalCount,
+                    unit = habit.unit,
+                    isSelected = true, // Force color display, not actual selection state
                     onClick = {
                         val userId = FirebaseAuth.getInstance().currentUser?.uid
                         if (userId != null) {
                             viewModel.viewModelScope.launch {
-                                when (val result = viewModel.addHabitToFirestore(userId, name, emoji)) {
+                                // *** CORRECTED: Call the updated ViewModel function ***
+                                when (val result = viewModel.addPopularHabitToFirestore(userId, habit)) { // Pass the whole HabitInfo object
                                     AddHabitResult.Success -> {
-                                        onHabitSelected(name)
-                                        onCloseSheet()
+                                        // Pass the added habit's name back
+                                        onHabitSelected(habit.habitName)
+                                        onCloseSheet() // Close sheet on success
                                     }
                                     AddHabitResult.AlreadyExists -> {
-                                        Toast.makeText(context, "Habit already exists!", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(context, "Habit '${habit.habitName}' already exists!", Toast.LENGTH_SHORT).show()
                                     }
                                     AddHabitResult.Failed -> {
-                                        Toast.makeText(context, "Something went wrong. Try again.", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(context, "Failed to add habit. Try again.", Toast.LENGTH_SHORT).show()
                                     }
                                 }
                             }
+                        } else {
+                            // Handle case where user is not logged in (optional, but good practice)
+                            Toast.makeText(context, "Please log in to add habits.", Toast.LENGTH_SHORT).show()
                         }
                     }
                 )
@@ -156,27 +145,31 @@ fun BottomHabitSheetContent(
         }
 
         Spacer(modifier = Modifier.height(16.dp))
+        // Close button (remains unchanged)
         Button(
             onClick = onCloseSheet,
             modifier = Modifier.align(Alignment.End),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF5B5C9F),
+                containerColor = Color(0xFF2962FF),
                 contentColor = Color.White
             )
-
         ) {
             Text("Close")
         }
     }
 }
 
+// Preview needs adjustment as it now relies on HabitData and HabitColors
 @Preview(showBackground = true)
 @Composable
-private fun BottomHabitSheetContentPreviw() {
+private fun BottomHabitSheetContentPreview() {
+    // Note: Preview might need a mock ViewModel or adjustments
+    // if HomeViewModel has complex dependencies.
+    // For simplicity, using remember { HomeViewModel() } might work if dependencies are simple.
     BottomHabitSheetContent(
-        viewModel = remember { HomeViewModel() },
-        onHabitSelected = {},
-        onCloseSheet = {},
-        navController = rememberNavController()
+        viewModel = remember { HomeViewModel() }, // Assuming basic ViewModel instantiation works for preview
+        onHabitSelected = { /* Preview action */ },
+        onCloseSheet = { /* Preview action */ },
+        navController = rememberNavController() // Use rememberNavController for preview
     )
 }
